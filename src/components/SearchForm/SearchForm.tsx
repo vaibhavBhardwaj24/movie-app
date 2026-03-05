@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import styles from "./SearchForm.module.css";
 
 interface SearchFormProps {
   onSearch: (imdbId: string) => void;
@@ -47,27 +46,27 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className="text-center pt-20 pb-12 px-0 sm:pt-20 sm:pb-12 px-4">
       {/* Hero Text */}
-      <div className={styles.hero}>
-        <div className={styles.heroBadge}>
+      <div className="mb-10">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-accent-primary/10 border border-accent-primary/25 rounded-full text-[0.8rem] font-medium text-[#818cf8] mb-6 animate-fade-in-up">
           <span>🎬</span>
           <span>AI-Powered Movie Intelligence</span>
         </div>
-        <h1 className={styles.heroTitle}>
+        <h1 className="text-[clamp(2.5rem,6vw,4rem)] font-extrabold text-text-primary tracking-[-0.03em] mb-4 animate-fade-in-up [animation-delay:100ms] [animation-fill-mode:both]">
           Discover the{" "}
           <span className="gradient-text">Pulse</span> of Any Film
         </h1>
-        <p className={styles.heroSubtitle}>
+        <p className="text-[1.1rem] text-text-secondary max-w-[560px] mx-auto leading-[1.7] animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:both]">
           Enter an IMDb movie ID to unlock cast details, AI-generated sentiment
           analysis, and deep audience insights — all in seconds.
         </p>
       </div>
 
       {/* Search Form */}
-      <form onSubmit={handleSubmit} className={styles.form} noValidate>
-        <div className={styles.inputWrapper}>
-          <div className={styles.inputIcon}>
+      <form onSubmit={handleSubmit} className="max-w-[640px] mx-auto mb-6 animate-fade-in-up [animation-delay:300ms] [animation-fill-mode:both]" noValidate>
+        <div className="flex flex-col sm:flex-row items-center gap-3 relative w-full font-sans">
+          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none z-10 flex items-center">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.35-4.35" />
@@ -82,7 +81,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
               if (error) setError(validate(e.target.value));
             }}
             placeholder="Enter IMDb ID (e.g., tt0133093)"
-            className={`input-field ${styles.input} ${error ? styles.inputError : ""}`}
+            className={`input-field !pl-12 !rounded-full w-full ${error ? "!border-rose-500/50 !shadow-[0_0_0_3px_rgba(244,63,94,0.1)] focus:!border-rose-500" : ""}`}
             aria-label="IMDb Movie ID"
             aria-describedby={error ? "search-error" : undefined}
             autoComplete="off"
@@ -92,12 +91,12 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
             id="search-button"
             type="submit"
             disabled={isLoading}
-            className={`btn-primary ${styles.searchBtn}`}
+            className="btn-primary flex-shrink-0 whitespace-nowrap w-full sm:w-auto mt-2 sm:mt-0"
             aria-label="Analyze movie"
           >
             {isLoading ? (
               <>
-                <div className={`${styles.spinner} animate-spin`} />
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 <span>Analyzing...</span>
               </>
             ) : (
@@ -113,7 +112,7 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
 
         {/* Validation Error */}
         {error && (
-          <p id="search-error" className={styles.errorMsg} role="alert">
+          <p id="search-error" className="flex items-center gap-1.5 text-[#fb7185] text-[0.875rem] mt-2.5 pl-5 text-left animate-fade-in" role="alert">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
               <line x1="12" y1="8" x2="12" y2="12" />
@@ -125,15 +124,15 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
       </form>
 
       {/* Example Movies */}
-      <div className={styles.examples}>
-        <span className={styles.examplesLabel}>Try an example:</span>
-        <div className={styles.exampleChips}>
+      <div className="flex items-center justify-center flex-wrap gap-2.5 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:both]">
+        <span className="text-[0.85rem] text-text-muted font-medium">Try an example:</span>
+        <div className="flex flex-wrap justify-center gap-2">
           {EXAMPLE_IDS.map((movie) => (
             <button
               key={movie.id}
               onClick={() => handleExampleClick(movie.id)}
               disabled={isLoading}
-              className={styles.chip}
+              className="px-3.5 py-1.5 bg-white/5 border border-white/10 rounded-full text-text-secondary text-[0.8rem] font-medium cursor-pointer transition-all duration-200 font-sans hover:bg-accent-primary/10 hover:border-accent-primary/30 hover:text-[#818cf8] hover:-translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-white/5 disabled:hover:border-white/10 disabled:hover:text-text-secondary"
               aria-label={`Search for ${movie.title}`}
             >
               {movie.title}

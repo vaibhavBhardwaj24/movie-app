@@ -7,7 +7,6 @@ import MovieCard from "@/components/MovieCard/MovieCard";
 import LoadingSkeleton from "@/components/LoadingSkeleton/LoadingSkeleton";
 import ErrorMessage from "@/components/ErrorMessage/ErrorMessage";
 import { MovieAnalysisResult } from "@/types/movie";
-import styles from "./page.module.css";
 
 type AppState = "idle" | "loading" | "success" | "error";
 
@@ -57,11 +56,11 @@ export default function HomePage() {
   const isLoading = appState === "loading";
 
   return (
-    <div className={styles.page}>
+    <div className="flex flex-col min-h-screen">
       <Header />
 
-      <main className={styles.main}>
-        <div className="container">
+      <main className="flex-1 pb-8">
+        <div className="container-custom">
           {/* Search Section */}
           <section aria-label="Movie Search">
             <SearchForm onSearch={handleSearch} isLoading={isLoading} />
@@ -69,7 +68,7 @@ export default function HomePage() {
 
           {/* Results Section */}
           {appState !== "idle" && (
-            <section id="results-section" className={styles.results} aria-label="Movie Results" aria-live="polite">
+            <section id="results-section" className="mt-4 scroll-mt-20" aria-label="Movie Results" aria-live="polite">
               {appState === "loading" && <LoadingSkeleton />}
               {appState === "error" && (
                 <ErrorMessage message={error} onRetry={handleRetry} />
@@ -82,13 +81,13 @@ export default function HomePage() {
 
           {/* Empty State */}
           {appState === "idle" && (
-            <section className={styles.emptyState} aria-label="Getting started">
-              <div className={styles.featureGrid}>
+            <section className="py-8 pb-16" aria-label="Getting started">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-auto-fit gap-4 stagger-children">
                 {FEATURES.map((feature, i) => (
-                  <div key={i} className={`glass-card ${styles.featureCard}`}>
-                    <div className={styles.featureIcon}>{feature.icon}</div>
-                    <h3 className={styles.featureTitle}>{feature.title}</h3>
-                    <p className={styles.featureDesc}>{feature.desc}</p>
+                  <div key={i} className="glass-card p-7 text-center animate-fade-in-up">
+                    <div className="text-[2.25rem] mb-3.5">{feature.icon}</div>
+                    <h3 className="text-[1.05rem] font-bold text-text-primary mb-2">{feature.title}</h3>
+                    <p className="text-[0.85rem] text-text-secondary leading-relaxed">{feature.desc}</p>
                   </div>
                 ))}
               </div>
@@ -97,18 +96,18 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <div className="container">
-          <p className={styles.footerText}>
+      <footer className="py-6 border-t border-border-card text-center">
+        <div className="container-custom">
+          <p className="text-[0.8rem] text-text-muted">
             Built with{" "}
-            <span className="gradient-text" style={{ fontWeight: 700 }}>Next.js</span>
+            <span className="gradient-text font-bold">Next.js</span>
             {" "}·{" "}
             Data from{" "}
-            <a href="https://www.omdbapi.com" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>OMDB</a>
+            <a href="https://www.omdbapi.com" target="_blank" rel="noopener noreferrer" className="text-[#818cf8] no-underline font-medium transition-colors hover:text-accent-secondary">OMDB</a>
             {" "}&amp;{" "}
-            <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>TMDB</a>
+            <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer" className="text-[#818cf8] no-underline font-medium transition-colors hover:text-accent-secondary">TMDB</a>
             {" "}· AI by{" "}
-            <a href="https://deepmind.google/technologies/gemini/" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>Google Gemini</a>
+            <a href="https://deepmind.google/technologies/gemini/" target="_blank" rel="noopener noreferrer" className="text-[#818cf8] no-underline font-medium transition-colors hover:text-accent-secondary">Google Gemini</a>
           </p>
         </div>
       </footer>

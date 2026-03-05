@@ -6,7 +6,6 @@ import { MovieAnalysisResult, SentimentType } from "@/types/movie";
 import SentimentPanel from "@/components/SentimentPanel/SentimentPanel";
 import CastGrid from "@/components/CastGrid/CastGrid";
 import ReviewsSection from "@/components/ReviewsSection/ReviewsSection";
-import styles from "./MovieCard.module.css";
 
 interface MovieCardProps {
   data: MovieAnalysisResult;
@@ -64,59 +63,63 @@ export default function MovieCard({ data }: MovieCardProps) {
     movie.Poster.startsWith("http");
 
   return (
-    <div className={`${styles.container} animate-fade-in-up`}>
+    <div className="flex flex-col gap-5 pb-16 animate-fade-in-up">
       {/* ── Top Section: Poster + Info ─────────────────────────────────────── */}
-      <div className={`glass-card ${styles.topCard}`}>
-        <div className={styles.posterSection}>
+      <div className="glass-card grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8 p-6 md:p-8 overflow-hidden">
+        <div className="relative shrink-0 max-w-[200px] md:max-w-none mx-auto w-full group">
           {hasPoster ? (
-            <div className={styles.posterWrapper}>
+            <div className="relative w-full aspect-[2/3] rounded-2xl overflow-hidden">
               <Image
                 src={movie.Poster}
                 alt={`${movie.Title} poster`}
                 fill
                 sizes="(max-width: 768px) 200px, 280px"
-                className={styles.posterImg}
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 onError={() => setPosterError(true)}
                 priority
               />
-              <div className={styles.posterGlow} />
+              <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 to-transparent rounded-2xl pointer-events-none" />
             </div>
           ) : (
-            <div className={styles.posterFallback}>
-              <span>🎬</span>
+            <div className="w-full aspect-[2/3] bg-white/5 border border-border-card rounded-2xl flex flex-col items-center justify-center gap-2 text-text-muted text-[0.85rem]">
+              <span className="text-[2.5rem]">🎬</span>
               <span>No Poster</span>
             </div>
           )}
         </div>
 
-        <div className={styles.infoSection}>
+        <div className="flex flex-col gap-4">
           {/* Title + Year */}
-          <div className={styles.titleRow}>
-            <h2 className={styles.title}>{movie.Title}</h2>
-            <span className={`badge badge-primary ${styles.yearBadge}`}>
+          <div className="flex items-start gap-3 flex-wrap">
+            <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-extrabold text-text-primary tracking-[-0.02em] leading-[1.2] flex-1">
+              {movie.Title}
+            </h2>
+            <span className="badge badge-primary shrink-0 mt-1">
               {movie.Year}
             </span>
           </div>
 
           {/* Genres */}
-          <div className={styles.genres}>
+          <div className="flex flex-wrap gap-1.5">
             {genres.map((g) => (
-              <span key={g} className={`badge badge-primary`}>
+              <span key={g} className="badge badge-primary">
                 {g}
               </span>
             ))}
           </div>
 
           {/* Ratings Row */}
-          <div className={styles.ratingsRow}>
+          <div className="flex flex-wrap gap-4 md:gap-6 mt-2">
             {/* IMDb Rating */}
-            <div className={styles.ratingBox}>
-              <div className={styles.ratingLabel}>IMDb</div>
-              <div className={styles.ratingValue}>
-                <span className="gradient-text-gold">{movie.imdbRating}</span>
-                <span className={styles.ratingMax}>/10</span>
+            <div className="flex flex-col gap-1">
+              <div className="text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-text-muted">
+                IMDb
               </div>
-              <div className={styles.stars}>
+              <div className="font-heading text-[1.6rem] font-extrabold flex items-baseline gap-0.5">
+                <span className="gradient-text-gold">{movie.imdbRating}</span>
+                <span className="text-[0.9rem] text-text-muted font-normal">/10</span>
+              </div>
+              <div className="flex gap-[1px] text-[0.85rem]">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <span key={i} className={i < stars ? "star-filled" : "star-empty"}>
                     ★
@@ -127,26 +130,30 @@ export default function MovieCard({ data }: MovieCardProps) {
 
             {/* Metascore */}
             {movie.Metascore !== "N/A" && (
-              <div className={styles.ratingBox}>
-                <div className={styles.ratingLabel}>Metascore</div>
-                <div className={styles.ratingValue}>
+              <div className="flex flex-col gap-1">
+                <div className="text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-text-muted">
+                  Metascore
+                </div>
+                <div className="font-heading text-[1.6rem] font-extrabold flex items-baseline gap-0.5">
                   <span className="gradient-text">{movie.Metascore}</span>
-                  <span className={styles.ratingMax}>/100</span>
+                  <span className="text-[0.9rem] text-text-muted font-normal">/100</span>
                 </div>
               </div>
             )}
 
             {/* Sentiment Badge */}
-            <div className={styles.ratingBox}>
-              <div className={styles.ratingLabel}>AI Sentiment</div>
-              <div className={`badge ${sentimentConfig.badgeClass} ${styles.sentimentBadge}`}>
+            <div className="flex flex-col gap-1">
+              <div className="text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-text-muted">
+                AI Sentiment
+              </div>
+              <div className={`badge ${sentimentConfig.badgeClass} !text-[0.85rem] !px-3.5 !py-1.5 mt-1`}>
                 {sentimentConfig.icon} {sentimentConfig.label}
               </div>
             </div>
           </div>
 
           {/* Meta Info Grid */}
-          <div className={styles.metaGrid}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3 mt-4">
             {movie.Director !== "N/A" && (
               <MetaItem icon="🎬" label="Director" value={movie.Director} />
             )}
@@ -169,7 +176,7 @@ export default function MovieCard({ data }: MovieCardProps) {
 
           {/* Awards */}
           {movie.Awards && movie.Awards !== "N/A" && (
-            <div className={styles.awards}>
+            <div className="flex items-center gap-2 px-4 py-3 bg-accent-gold/10 border border-accent-gold/20 rounded-xl text-[0.85rem] text-[#fbbf24] font-medium mt-2">
               <span>🏆</span>
               <span>{movie.Awards}</span>
             </div>
@@ -178,15 +185,17 @@ export default function MovieCard({ data }: MovieCardProps) {
       </div>
 
       {/* ── Plot Summary ────────────────────────────────────────────────────── */}
-      <div className={`glass-card ${styles.plotCard}`}>
-        <h3 className={styles.sectionTitle}>
+      <div className="glass-card p-6 md:p-7">
+        <h3 className="flex items-center gap-2 text-[1.125rem] font-bold text-text-primary mb-4">
           <span>📖</span> Plot Summary
         </h3>
-        <p className={styles.plot}>{movie.Plot}</p>
+        <p className="text-text-secondary leading-[1.8] text-[0.95rem]">
+          {movie.Plot}
+        </p>
         {movie.Actors !== "N/A" && (
-          <div className={styles.actors}>
-            <span className={styles.actorsLabel}>Starring:</span>
-            <span className={styles.actorsValue}>{movie.Actors}</span>
+          <div className="mt-4 pt-4 border-t border-border-card flex gap-2 text-[0.875rem] flex-wrap">
+            <span className="text-text-muted font-medium shrink-0">Starring:</span>
+            <span className="text-text-secondary">{movie.Actors}</span>
           </div>
         )}
       </div>
@@ -196,14 +205,16 @@ export default function MovieCard({ data }: MovieCardProps) {
 
       {/* ── Tabs: Cast, Reviews ──────────────────────────────────────────────── */}
       {(cast.length > 0 || reviews.length > 0) && (
-        <div className={`glass-card ${styles.tabsCard}`}>
-          <div className={styles.tabBar} role="tablist">
+        <div className="glass-card p-0 overflow-hidden">
+          <div className="flex border-b border-border-card px-4 md:px-6 gap-1" role="tablist">
             {cast.length > 0 && (
               <button
                 id="tab-cast"
                 role="tab"
                 aria-selected={activeTab === "cast"}
-                className={`${styles.tab} ${activeTab === "cast" ? styles.tabActive : ""}`}
+                className={`px-5 py-4 bg-transparent border-none text-[0.875rem] font-semibold cursor-pointer transition-all duration-200 font-sans border-b-2 -mb-[1px] hover:text-text-secondary ${
+                  activeTab === "cast" ? "text-text-primary border-accent-primary" : "text-text-muted border-transparent"
+                }`}
                 onClick={() => setActiveTab("cast")}
               >
                 🎭 Cast ({cast.length})
@@ -214,7 +225,9 @@ export default function MovieCard({ data }: MovieCardProps) {
                 id="tab-reviews"
                 role="tab"
                 aria-selected={activeTab === "reviews"}
-                className={`${styles.tab} ${activeTab === "reviews" ? styles.tabActive : ""}`}
+                className={`px-5 py-4 bg-transparent border-none text-[0.875rem] font-semibold cursor-pointer transition-all duration-200 font-sans border-b-2 -mb-[1px] hover:text-text-secondary ${
+                  activeTab === "reviews" ? "text-text-primary border-accent-primary" : "text-text-muted border-transparent"
+                }`}
                 onClick={() => setActiveTab("reviews")}
               >
                 💬 Reviews ({reviews.length})
@@ -222,7 +235,7 @@ export default function MovieCard({ data }: MovieCardProps) {
             )}
           </div>
 
-          <div className={styles.tabContent}>
+          <div className="p-4 md:p-6">
             {activeTab === "cast" && cast.length > 0 && <CastGrid cast={cast} />}
             {activeTab === "reviews" && reviews.length > 0 && (
               <ReviewsSection reviews={reviews} />
@@ -233,11 +246,11 @@ export default function MovieCard({ data }: MovieCardProps) {
 
       {/* ── Ratings Breakdown ────────────────────────────────────────────────── */}
       {movie.Ratings?.length > 0 && (
-        <div className={`glass-card ${styles.ratingsCard}`}>
-          <h3 className={styles.sectionTitle}>
+        <div className="glass-card p-6 md:p-7">
+          <h3 className="flex items-center gap-2 text-[1.125rem] font-bold text-text-primary mb-4">
             <span>⭐</span> Ratings Breakdown
           </h3>
-          <div className={styles.ratingsBreakdown}>
+          <div className="flex flex-col gap-5">
             {movie.Ratings.map((r) => (
               <RatingBar key={r.Source} source={r.Source} value={r.Value} />
             ))}
@@ -252,11 +265,15 @@ export default function MovieCard({ data }: MovieCardProps) {
 
 function MetaItem({ icon, label, value }: { icon: string; label: string; value: string }) {
   return (
-    <div className={styles.metaItem}>
-      <span className={styles.metaIcon}>{icon}</span>
+    <div className="flex items-start gap-2">
+      <span className="text-base shrink-0 mt-[2px]">{icon}</span>
       <div>
-        <div className={styles.metaLabel}>{label}</div>
-        <div className={styles.metaValue}>{value}</div>
+        <div className="text-[0.7rem] font-semibold uppercase tracking-[0.08em] text-text-muted">
+          {label}
+        </div>
+        <div className="text-[0.875rem] font-medium text-text-primary leading-[1.3]">
+          {value}
+        </div>
       </div>
     </div>
   );
@@ -280,10 +297,10 @@ function RatingBar({ source, value }: { source: string; value: string }) {
   };
 
   return (
-    <div className={styles.ratingBarItem}>
-      <div className={styles.ratingBarHeader}>
-        <span className={styles.ratingSource}>{source}</span>
-        <span className={styles.ratingBarValue}>{value}</span>
+    <div className="flex flex-col gap-2">
+      <div className="flex justify-between items-center">
+        <span className="text-[0.875rem] font-medium text-text-secondary">{source}</span>
+        <span className="text-[0.875rem] font-bold text-text-primary">{value}</span>
       </div>
       <div className="progress-bar">
         <div

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { CastMember } from "@/types/movie";
-import styles from "./CastGrid.module.css";
 
 interface CastGridProps {
   cast: CastMember[];
@@ -11,7 +10,7 @@ interface CastGridProps {
 
 export default function CastGrid({ cast }: CastGridProps) {
   return (
-    <div className={`${styles.grid} stagger-children`}>
+    <div className="grid grid-cols-auto-fill-80 sm:grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-3 sm:gap-4 stagger-children">
       {cast.map((member) => (
         <CastCard key={member.id} member={member} />
       ))}
@@ -35,27 +34,27 @@ function CastCard({ member }: { member: CastMember }) {
     .toUpperCase();
 
   return (
-    <div className={`${styles.card} animate-fade-in-up`}>
-      <div className={styles.photoWrapper}>
+    <div className="flex flex-col items-center gap-2 cursor-default transition-transform duration-200 hover:-translate-y-1 animate-fade-in-up group">
+      <div className="relative w-[60px] h-[60px] sm:w-[72px] sm:h-[72px] rounded-full overflow-hidden border-2 border-border-subtle shrink-0 transition-all duration-200 group-hover:border-accent-primary group-hover:shadow-[0_0_16px_rgba(99,102,241,0.3)]">
         {photoUrl ? (
           <Image
             src={photoUrl}
             alt={member.name}
             fill
             sizes="80px"
-            className={styles.photo}
+            className="object-cover"
             onError={() => setImgError(true)}
           />
         ) : (
-          <div className={styles.photoFallback}>
+          <div className="w-full h-full bg-gradient-primary flex items-center justify-center text-[1.2rem] font-bold text-white font-heading">
             <span>{initials}</span>
           </div>
         )}
       </div>
-      <div className={styles.info}>
-        <div className={styles.name}>{member.name}</div>
+      <div className="text-center">
+        <div className="text-[0.8rem] font-semibold text-text-primary leading-[1.3]">{member.name}</div>
         {member.character && (
-          <div className={styles.character} title={member.character}>
+          <div className="text-[0.72rem] text-text-muted mt-0.5 italic" title={member.character}>
             {member.character.length > 20
               ? member.character.slice(0, 20) + "…"
               : member.character}

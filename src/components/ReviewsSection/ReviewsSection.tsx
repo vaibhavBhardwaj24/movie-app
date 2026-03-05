@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { MovieReview } from "@/types/movie";
-import styles from "./ReviewsSection.module.css";
 
 interface ReviewsSectionProps {
   reviews: MovieReview[];
@@ -16,7 +15,7 @@ export default function ReviewsSection({ reviews }: ReviewsSectionProps) {
   };
 
   return (
-    <div className={styles.list}>
+    <div className="flex flex-col gap-4">
       {reviews.map((review, i) => (
         <ReviewItem
           key={review.id}
@@ -69,28 +68,28 @@ function ReviewItem({ review, index, isExpanded, onToggle }: ReviewItemProps) {
   const avatarGradient = AVATAR_GRADIENTS[index % AVATAR_GRADIENTS.length];
 
   return (
-    <div className={`${styles.review} animate-fade-in-up`} style={{ animationDelay: `${index * 80}ms` }}>
-      <div className={styles.reviewHeader}>
-        <div className={styles.avatar} style={{ background: avatarGradient }}>
+    <div className="p-5 bg-white/[0.02] border border-border-card rounded-2xl transition-colors duration-200 hover:bg-white/[0.04] hover:border-border-subtle animate-fade-in-up" style={{ animationDelay: `${index * 80}ms` }}>
+      <div className="flex items-center gap-3 mb-3.5">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center text-[0.875rem] font-bold text-white font-heading shrink-0" style={{ background: avatarGradient }}>
           {initials}
         </div>
-        <div className={styles.authorInfo}>
-          <span className={styles.authorName}>{review.author}</span>
-          <span className={styles.reviewDate}>{formattedDate}</span>
+        <div className="flex-1 min-w-0">
+          <span className="block text-[0.9rem] font-semibold text-text-primary overflow-hidden text-ellipsis whitespace-nowrap">{review.author}</span>
+          <span className="block text-[0.75rem] text-text-muted mt-0.5">{formattedDate}</span>
         </div>
         {review.rating !== undefined && review.rating !== null && (
-          <div className={styles.rating}>
+          <div className="flex items-center gap-1 shrink-0">
             <span className="star-filled">★</span>
-            <span className={styles.ratingNum}>{review.rating}</span>
-            <span className={styles.ratingMax}>/10</span>
+            <span className="font-bold text-text-primary text-[0.9rem]">{review.rating}</span>
+            <span className="text-text-muted text-[0.75rem]">/10</span>
           </div>
         )}
       </div>
 
-      <p className={styles.content}>{displayContent}</p>
+      <p className="text-[0.875rem] leading-[1.75] text-text-secondary">{displayContent}</p>
 
       {isLong && (
-        <button className={styles.toggleBtn} onClick={onToggle}>
+        <button className="mt-2.5 bg-transparent border-none text-[#818cf8] text-[0.8rem] font-semibold cursor-pointer font-sans p-0 transition-colors duration-150 hover:text-accent-secondary" onClick={onToggle}>
           {isExpanded ? "Show less ↑" : "Read more ↓"}
         </button>
       )}
