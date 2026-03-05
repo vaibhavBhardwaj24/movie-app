@@ -7,7 +7,7 @@ import { render, screen } from "@testing-library/react";
 import SentimentPanel from "@/components/SentimentPanel/SentimentPanel";
 import { SentimentAnalysis } from "@/types/movie";
 
-jest.mock("@/components/SentimentPanel/SentimentPanel.module.css", () => ({}));
+
 
 const mockPositiveSentiment: SentimentAnalysis = {
   sentiment: "positive",

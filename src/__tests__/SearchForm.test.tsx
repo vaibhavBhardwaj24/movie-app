@@ -8,7 +8,7 @@ import userEvent from "@testing-library/user-event";
 import SearchForm from "@/components/SearchForm/SearchForm";
 
 // Mock CSS modules to avoid JSDOM styling issues
-jest.mock("@/components/SearchForm/SearchForm.module.css", () => ({}));
+
 
 const mockOnSearch = jest.fn();
 
