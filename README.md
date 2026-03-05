@@ -215,10 +215,6 @@ MIT — Free to use for educational and portfolio purposes.
 
 ---
 
-## 🍿 Fun Fact
-
-> 🎬 **Did you know?** The IMDb identifier format (`tt` followed by numbers) that this app uses stands for **"title"** in IMDb's internal database system. The `tt` prefix has been used since IMDb launched in **1990** — making it one of the oldest consistent identifier schemes still in active use on the modern web! For example, `tt0111161` maps to *The Shawshank Redemption*, which has held the **#1 spot** on IMDb's Top 250 list for over **15 years**. 🏆
-
----
-
 *Built with ❤️ using Next.js, TypeScript, and Google Gemini AI*
+
+<!-- Fun Fact: Did you know that the first version of HTML only had 18 tags? -->
